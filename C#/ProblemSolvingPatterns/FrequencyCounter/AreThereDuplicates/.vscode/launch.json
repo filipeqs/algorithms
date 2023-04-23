@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/FrequencyCounter/bin/Debug/net7.0/FrequencyCounter.dll",
+            "program": "${workspaceFolder}/bin/Debug/net7.0/AreThereDuplicates.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/FrequencyCounter",
+            "cwd": "${workspaceFolder}",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false
