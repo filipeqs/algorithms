@@ -31,25 +31,20 @@ class SinglyLikedList {
   pop() {
     if (this.length === 0) return undefined;
 
-    const nodeToReturn = this.tail;
     let current = this.head;
-    let i = 1;
-    while (i < this.length - 1) {
+    let newTail = current;
+    while (current.next) {
+      newTail = current;
       current = current.next;
-      i++;
     }
 
-    this.tail = current;
+    this.tail = newTail;
+    this.tail.next = null;
     this.length--;
-    if (this.length === 0) {
-      this.head = null;
-      this.tail = null;
-    }
-
-    return nodeToReturn;
+    return current;
   }
 
-  shift(val) {
+  unshift(val) {
     const node = new SinglyLinkedListNode(val);
 
     if (this.length === 0) {
@@ -64,7 +59,7 @@ class SinglyLikedList {
     return this;
   }
 
-  unshift() {
+  shift() {
     if (this.length === 0) return undefined;
 
     const currentHead = this.head;
@@ -80,7 +75,7 @@ class SinglyLikedList {
 
   get(position) {
     if (position < 0 || position > this.length) return undefined;
-    let i = 1;
+    let i = 0;
     let current = this.head;
     while (i !== position) {
       current = current.next;
@@ -90,8 +85,8 @@ class SinglyLikedList {
     return current;
   }
 
-  set(position, val) {
-    const node = this.get(position);
+  set(index, val) {
+    const node = this.get(index);
     if (node) {
       node.val = val;
       return true;
@@ -100,18 +95,47 @@ class SinglyLikedList {
     return false;
   }
 
-  insert(position, val) {
-    if (position < 0 || position > this.length) return false;
-    if (position === this.length) return !!this.push(val);
-    if (position === 0) return !!this.unshift(val);
+  insert(index, val) {
+    if (index < 0 || index >= this.length) return false;
+    if (index === this.length) return !!this.push(val);
+    if (index === 0) return !!this.unshift(val);
 
     const newNode = new SinglyLinkedListNode(val);
-    const prev = this.get(position - 1);
+    const prev = this.get(index - 1);
     const temp = prev.next;
     prev.next = newNode;
     newNode.next = temp;
     this.length++;
     return true;
+  }
+
+  remove(index) {
+    if (index < 0 || index >= this.length) return false;
+    if (index === this.length - 1) return !!this.pop();
+    if (index === 0) return !!this.shift();
+
+    const prevNode = this.get(index - 1);
+    const removed = prevNode.next;
+    prevNode.next = removed.next;
+    this.length--;
+
+    return removed;
+  }
+
+  reverse() {
+    let current = this.head;
+    this.head = this.tail;
+    this.tail = current;
+
+    let prev = null;
+    while (current) {
+      const next = current.next;
+      current.next = prev;
+      prev = current;
+      current = next;
+    }
+
+    return this;
   }
 }
 
@@ -119,6 +143,3 @@ const singlyList = new SinglyLikedList();
 singlyList.push('Hi');
 singlyList.push('there');
 singlyList.push('Its');
-singlyList.shift('Hello');
-singlyList.set(1, 'test');
-console.log(singlyList);
